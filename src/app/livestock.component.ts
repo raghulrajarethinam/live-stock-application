@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { LiveStockService } from './livestock.service'
 import { ToastrService } from 'ngx-toastr';
-import { timer } from 'rxjs';
+import { timer,Subscription } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 
 @Component({
@@ -112,7 +112,7 @@ export class LiveStockComponent implements OnInit {
   ngOnDestroy() {
       this.subscription.unsubscribe();
   }
-  
+
   //Remove tocks from chart
   remove(stock_to_remove: string): void {
     const index = this.stocks.indexOf(stock_to_remove);

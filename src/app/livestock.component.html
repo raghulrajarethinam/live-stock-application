@@ -1,0 +1,33 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class='container'>
+	<div class='row'>
+		<div class='col-sm-6'>
+			<h3>Stock Application</h3>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-lg-6'>
+			<div class="input-group">
+				<input type="text" [(ngModel)]="stock_to_add" class="form-control" id="stockName" placeholder="Enter Stock Symbol e.g) aapl"/>
+        <span class="btn-group">  
+        <button id="addStockButton" class="btn btn-primary" (click)="addStock()">Add Stock</button>
+        <button class="btn btn-secondary" type="button" (click)="refreshAll()">Refresh</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class=' row'>
+    <div class='col-lg-12'>
+     <mat-chip-list #stockList aria-label="Stock selection" >
+    <mat-chip *ngFor="let stock of stocks" [selectable]="removable"
+             [removable]="removable" (removed)="remove(stock)">
+      {{stock}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+    </div>
+  </div>
+  <div class='row'>
+    <canvas id="stock-chart" width="800" height="200" ></canvas>
+  </div>
+</div>

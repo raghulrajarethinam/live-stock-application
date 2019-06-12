@@ -1,0 +1,12 @@
+/* Add application styles & imports to this file! */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
+#toast-container > div {
+  opacity: 1;
+}
+.example-chip-list {
+  width: 100%;
+}
+.mat-chip-list-wrapper{
+  padding-top: 10px;
+}

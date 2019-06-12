@@ -18,6 +18,7 @@ export class LiveStockComponent implements OnInit {
   toastMessage: string;
   removable = true;
   stock_chart: Chart;
+  subscription: Subscription;
 
   constructor(private livestockservice: LiveStockService, private toast: ToastrService) {
     this.stocks = [];
@@ -67,6 +68,7 @@ export class LiveStockComponent implements OnInit {
         }
       }
     });
+    this.refreshAll();
   }
   addStock(): void {
     if (this.stock_to_add) {
@@ -94,19 +96,24 @@ export class LiveStockComponent implements OnInit {
     this.stock_to_add = '';
   }
 
+  //Timer for 5 sec
   refreshAll(): void {
-    timer(0, 100).pipe(switchMap(()=>this.livestockservice.getMultipleStockPrice(this.stock_symbol))).subscribe(
-      data=>console.log(data)
+    this.subscription=timer(0, 5000).pipe(switchMap(()=>this.livestockservice.getMultipleStockPrice(this.stock_symbol))).subscribe(
+      data=>{
+          this.stock_symbol.forEach((item, index, arr)=>{
+              this.stock_prices[index]=data[item]['price'];
+          });
+          console.log(this.stock_prices)
+          this.stock_chart.update();
+      }
     );
-  
-    // this.Timer(0, 5000).pipe(
-    //   switchMap(() => this.appService.getMultipleStockPrices(this.stock_chart.data.labels))
-    // )
-    // this.livestockservice.getMultipleStockPrice(this.stock_symbol).subscribe(data=>{
-    //   console.log(data);
-    // });
   }
 
+  ngOnDestroy() {
+      this.subscription.unsubscribe();
+  }
+  
+  //Remove tocks from chart
   remove(stock_to_remove: string): void {
     const index = this.stocks.indexOf(stock_to_remove);
     if (index >= 0) {

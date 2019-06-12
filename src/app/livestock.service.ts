@@ -15,6 +15,7 @@ export class LiveStockService {
     this.multiple_stocks_url = 'https://cloud.iexapis.com/stable/stock/market/batch';
   }
 
+  //Get a stock price by stock symbol
   getStockPrice(stock_name: string) {
     if (stock_name.trim().length == 0) {
       return EMPTY;
@@ -22,14 +23,16 @@ export class LiveStockService {
     return this.http.get(this.single_stock_url + stock_name + "/quote"+"?token=pk_f2ddbfd54b2749b29540afcf0a9c62fc");
   }
 
+  //batch operation to get stock prices by stock symbols
   getMultipleStockPrice(stock_list: string[]) {
     if (stock_list.length == 0) {
       return EMPTY;
     }
+    //Adding comma for Api
     let stock_name=stock_list[0];
     for(var i=1;i<stock_list.length;i++){
       stock_name=stock_name+','+stock_list[i];
     }
-    return this.http.get(this.multiple_stocks_url + "/quote"+"?token=pk_f2ddbfd54b2749b29540afcf0a9c62fc"+ '&'+stock_name );
+    return this.http.get(this.multiple_stocks_url +"?token=pk_f2ddbfd54b2749b29540afcf0a9c62fc"+ '&symbols='+stock_name+'&types=price' );
   }
 }

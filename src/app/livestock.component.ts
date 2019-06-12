@@ -72,7 +72,7 @@ export class LiveStockComponent implements OnInit {
   }
   addStock(): void {
     if (this.stock_to_add) {
-      const index = this.stocks.indexOf(this.stock_to_add);
+      const index = this.stock_symbol.indexOf(this.stock_to_add.toUpperCase());
       if (index < 0) {
         this.livestockservice.getStockPrice(this.stock_to_add).subscribe(data => {
           if (data['companyName']) {
